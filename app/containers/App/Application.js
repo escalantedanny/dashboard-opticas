@@ -12,6 +12,7 @@ import {
   ListaVentas,
   ListaCobranzas,
   ListaOrdenes,
+  ListaUsuarios,
   Compras,
   BlankPage,
   Form,
@@ -35,6 +36,7 @@ function Application(props) {
         <Route path="lista-cobranzas" element={<ListaCobranzas />} />
         <Route path="lista-ordenes" element={<ListaOrdenes />} />
         <Route path="compras" element={<Compras />} />
+        <Route path="usuarios" element={<ListaUsuarios />} />
         <Route path="blank-page" element={<BlankPage />} />
         <Route path="pages" element={<Parent />} />
         <Route path="pages/dashboard" element={<DashboardPage />} />

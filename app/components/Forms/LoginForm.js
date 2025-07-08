@@ -52,9 +52,10 @@ function LoginForm() {
         console.log('Submitting form with values:', values);
         const response = await axios.post('http://localhost:3006/api/login', values);
 
-        const { token } = response.data;
+        const { token, usuario } = response.data;
 
         localStorage.setItem('token', token);
+        localStorage.setItem('usuario', JSON.stringify(usuario));
 
         // Redirecciona
         window.location.href = '/app';

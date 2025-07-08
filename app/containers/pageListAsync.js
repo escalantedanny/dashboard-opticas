@@ -103,3 +103,8 @@ export const Parent = loadable(() =>
   import('./Parent'), {
     fallback: <Loading />,
   });
+
+export const ListaUsuarios = loadable(() =>
+  import('./Pages/Users/ListaUsuarios'), {
+    fallback: <Loading />,
+  });

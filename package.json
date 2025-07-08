@@ -10,6 +10,7 @@
   "author": "Dandelion Pro Team",
   "license": "Envato Regular License",
   "scripts": {
+    "dev": "nodemon index.js",
     "analyze:clean": "rimraf stats.json",
     "preanalyze": "npm run analyze:clean",
     "analyze": "node ./internals/scripts/analyze.js",
@@ -252,6 +253,7 @@
     "lint-staged": "^11.1.2",
     "ngrok": "4.3.1",
     "node-plop": "0.30.0",
+    "nodemon": "^3.1.10",
     "null-loader": "0.1.1",
     "plop": "^3.0.5",
     "postcss-loader": "4.3.0",

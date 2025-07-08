@@ -18,7 +18,6 @@ const Breadcrumbs = (props) => {
   return (
     <section className={cx(theme === 'dark' ? classes.dark : classes.light, classes.breadcrumbs)}>
       <p>
-        You are here:
         <span>
           {
             parts.map((part, partIndex) => {

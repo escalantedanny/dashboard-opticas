@@ -114,7 +114,7 @@ module.exports = [
       {
         key: 'usuarios',
         name: 'Usuarios',
-        link: '/admin/usuarios',
+        link: 'usuarios',
         icon: 'ion-ios-person-outline',
       },
       {
