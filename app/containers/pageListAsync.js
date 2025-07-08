@@ -108,3 +108,8 @@ export const ListaUsuarios = loadable(() =>
   import('./Pages/Users/ListaUsuarios'), {
     fallback: <Loading />,
   });
+
+export const CrearUsuario = loadable(() =>
+  import('./Pages/Users/CrearUsuario'), {
+    fallback: <Loading />,
+  });

@@ -8,7 +8,15 @@ const obtenerUsuariosPorOptica = async (opticaId, token) => {
       Authorization: `${token}`
     }
   });
-  return res.data;
+  const listaTransformada = res.data.map(usuario => ({
+    id: usuario._id,
+    nombre: usuario.nombre,
+    email: usuario.email,
+    rol: usuario.rolId?.nombre ?? '',
+    sucursal: usuario.sucursalId?.nombre ?? '',
+    createdAt: new Date(usuario.createdAt).toLocaleDateString()
+  }));
+  return listaTransformada;
 };
 
 export default obtenerUsuariosPorOptica;

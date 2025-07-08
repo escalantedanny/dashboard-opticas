@@ -3,9 +3,7 @@ import { Helmet } from 'react-helmet';
 import brand from 'dan-api/dummy/brand';
 import useStyles from 'dan-components/Forms/user-jss';
 import Grid from '@mui/material/Grid';
-import Divider from '@mui/material/Divider';
-import ContactWidget from '../../Widget/ContactWidget';
-import TaskWidget from '../../Widget/TaskWidget';
+import TablePlaygroundUsuarios from '../Table/TablePlaygroundUsuarios';
 
 function ListaUsuarios() {
   const { classes } = useStyles();
@@ -23,13 +21,8 @@ function ListaUsuarios() {
         <meta property="twitter:description" content={description} />
       </Helmet>
       <Grid container spacing={3} className={classes.root}>
-        <Grid item md={6} xs={12}>
-          <Divider className={classes.divider} />
-          <ContactWidget />
-        </Grid>
-        <Grid item md={6} xs={12}>
-          <Divider className={classes.divider} />
-          <TaskWidget />
+        <Grid item md={12} xs={12}>
+          <TablePlaygroundUsuarios />
         </Grid>
       </Grid>
     </div>
