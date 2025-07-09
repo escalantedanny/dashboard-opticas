@@ -15,10 +15,13 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import Typography from '@mui/material/Typography';
 import { PapperBlock } from 'dan-components';
+import { CreateUser } from '../../../api/dummy/services/usuarioService';
 import obtenerRoles from '../../../api/dummy/services/rolService';
+import obtenerSucursales from '../../../api/dummy/services/sucursalService';
 
 const validationSchema = yup.object({
   name: yup.string('Ingrese el nombre').required('Requerido'),
+  rut: yup.string('Ingrese el Rut').required('Requerido'),
   email: yup.string('Ingrese el email').email('Correo inválido').required('Requerido'),
   password: yup.string('Ingrese la contraseña').min(6, 'Mínimo 6 caracteres').required('Requerido'),
   rol: yup.string().required('Seleccione un rol'),
@@ -43,11 +46,13 @@ function CrearUsuario() {
   const description = brand.desc;
   const { classes } = useStyles();
   const [listaRoles, setListaRoles] = useState([]);
-  const sucursales = ['Sucursal A', 'Sucursal B', 'Sucursal C'];
+  const [listaSucursales, setListaSucursales] = useState([]);
 
   useEffect(() => {
+    const token = localStorage.getItem('token');
+    const usuarioStr = localStorage.getItem('usuario');
+    const user = usuarioStr ? JSON.parse(usuarioStr) : null;
     const fetchRoles = async () => {
-      const token = localStorage.getItem('token');
       try {
         const roles = await obtenerRoles(token);
         setListaRoles(roles);
@@ -56,11 +61,22 @@ function CrearUsuario() {
       }
     };
 
+    const fetchSucursales = async () => {
+      try {
+        const sucursales = await obtenerSucursales(user.opticaId, token);
+        setListaSucursales(sucursales);
+      } catch (error) {
+        console.error('Error al obtener roles:', error);
+      }
+    };
+
+    fetchSucursales();
     fetchRoles();
   }, []);
 
   const formik = useFormik({
     initialValues: {
+      rut: '',
       name: '',
       email: '',
       password: '',
@@ -73,9 +89,29 @@ function CrearUsuario() {
     },
     validationSchema,
     onSubmit: async (values) => {
-      console.log('Usuario a crear:', values);
-      alert(JSON.stringify(values, null, 2));
-      // Aquí puedes usar await crearUsuario(values);
+      const token = localStorage.getItem('token');
+
+      const usuarioData = {
+        nombre: values.name,
+        email: values.email,
+        rut: values.rut,
+        password: values.password,
+        telefono: values.telefono,
+        mobile: values.mobile,
+        direccion: values.direccion,
+        rolId: values.rol,
+        sucursalId: values.sucursal,
+      };
+
+      try {
+        const nuevoUsuario = await CreateUser(usuarioData, token);
+        formik.initialValues;
+        console.log('Usuario creado:', nuevoUsuario);
+        alert('Usuario creado exitosamente');
+      } catch (error) {
+        console.error('Error al crear usuario:', error.response?.data || error.message);
+        alert('Error al crear usuario');
+      }
     },
   });
 
@@ -94,6 +130,17 @@ function CrearUsuario() {
           Crear Nuevo Usuario
         </Typography>
         <form className={classes.form} onSubmit={formik.handleSubmit}>
+          <TextField
+            fullWidth
+            variant="standard"
+            id="rut"
+            name="rut"
+            label="Rut"
+            value={formik.values.rut}
+            onChange={formik.handleChange}
+            error={formik.touched.rut && Boolean(formik.errors.rut)}
+            helperText={formik.touched.rut && formik.errors.rut}
+          />
           <TextField
             fullWidth
             variant="standard"
@@ -195,8 +242,10 @@ function CrearUsuario() {
               onChange={formik.handleChange}
               error={formik.touched.sucursal && Boolean(formik.errors.sucursal)}
             >
-              {sucursales.map((s) => (
-                <MenuItem key={s} value={s}>{s}</MenuItem>
+              {listaSucursales.map((sucursal) => (
+                <MenuItem key={sucursal._id} value={sucursal._id}>
+                  {sucursal.nombre}
+                </MenuItem>
               ))}
             </Select>
           </FormControl>

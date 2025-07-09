@@ -12,7 +12,7 @@ import { Button } from '@mui/material';
 import EnhancedTableHead from './tableParts/TableHeader';
 import EnhancedTableToolbar from './tableParts/TableToolbar';
 import useStyles from './tableParts/tableStyle-jss';
-import obtenerUsuariosPorOptica from '../../../api/dummy/services/usuarioService';
+import { ObtenerUsuariosPorOptica } from '../../../api/dummy/services/usuarioService';
 
 let counter = 0;
 function createData(name, calories, fat, carbs, protein) {
@@ -94,11 +94,11 @@ function TablePlaygroundUsuarios() {
 
   useEffect(() => {
     const fetchUsuarios = async () => {
-      const usuarioStr = localStorage.getItem('usuario');
       const token = localStorage.getItem('token');
+      const usuarioStr = localStorage.getItem('usuario');
       const user = usuarioStr ? JSON.parse(usuarioStr) : null;
       try {
-        const lista = await obtenerUsuariosPorOptica(user.opticaId, token);
+        const lista = await ObtenerUsuariosPorOptica(user.opticaId, token);
         setFormState(prev => ({
           ...prev,
           data: lista
